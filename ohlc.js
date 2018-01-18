@@ -3,9 +3,9 @@ var RSI = require('technicalindicators').RSI;
 var placeOrder =require('./order')
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "root",
-    database: "ng"
+    user: MYSQL_USER || "root",
+    password: MYSQL_PASSWORD || "root",
+    database: MYSQL_DATABASE||"ng"
 });
 var ohlc = [],closeRSI=[];
 

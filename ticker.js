@@ -4,10 +4,10 @@ var mysql=require("mysql");
 var symbolConf=require("./symbolConf");
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "root",
-    database:"ng"
-  });
+    user: MYSQL_USER || "root",
+    password: MYSQL_PASSWORD || "root",
+    database: MYSQL_DATABASE||"ng"
+});
   
   con.connect(function(err) {
     if (err) throw err;
