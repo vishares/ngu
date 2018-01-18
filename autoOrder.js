@@ -33,7 +33,7 @@ function rsiAlgo(con) {
 
 }
 
-listToUpdate = (con, list) => {
+var listToUpdate = (con, list) => {
     rsiLower=0,rsiHigher=0;
    
     list.forEach((item) => {
@@ -77,7 +77,7 @@ function rsiPlaceOrder(con, item,list) {
     });
 
 }
-validateRSI = function (closeRSI, option,list) {
+var validateRSI = function (closeRSI, option,list) {
     var inputRSI = {
         values: closeRSI,
         period: 14
@@ -120,7 +120,7 @@ validateRSI = function (closeRSI, option,list) {
 
 }
 
-getInterval = function () {
+var getInterval = function () {
     return interval;
 }
 
