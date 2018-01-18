@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/vishares/ngu/issues"
   },
-  "homepage": "https://github.com/vishares/ngu#readme"
+  "homepage": "https://github.com/vishares/ngu#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "kiteconnect": "^1.2.2",
+    "mysql": "^2.15.0",
+    "technicalindicators": "^1.0.21"
+  }
 }
