@@ -1,5 +1,5 @@
 "use strict";
-isChanged=false;
+var isChanged=false;
 
 function isInstrumentUpdated(){
     return isChanged;
