@@ -4,7 +4,7 @@
 var express = require('express');
 var login = require('./login');
 var url = require("url");
-var ticker = require("./ticker");
+var ticker;
 var autoOrder = require("./autoOrder");
 var mysql = require("mysql");
 var symbolConf=require("./symbolConf");
