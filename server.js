@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
   app.use(express.static(__dirname + '/Angular/ZerodhaClient/dist/')); 
 
 app.use('/zr',transaction)
-app.listen(8080,()=>{
+app.listen(process.env.OPENSHIFT_NODEJS_PORT  || 8080,()=>{
     console.log('listening');
 })
 
