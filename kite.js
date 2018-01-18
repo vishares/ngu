@@ -1,3 +1,4 @@
+"use strict";
 var fs=require('fs');
 var KiteConnect = require("kiteconnect").KiteConnect;
 var kc = new KiteConnect("20cn5uuajhjwuew9");
