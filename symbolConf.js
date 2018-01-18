@@ -11,7 +11,7 @@ function updateInstrument(value){
     
     }
 
-getTradingList = (con,cb) => {
+var getTradingList = (con,cb) => {
 
     let sql = `select token from instruments where isEnabled =1;`
     
@@ -26,7 +26,7 @@ getTradingList = (con,cb) => {
    
 }
 
-getInstruments=(con,token,cb)=>{
+var getInstruments=(con,token,cb)=>{
     let sql = `select * from instruments where token =${token};`
     
     con.query(sql, function (err, result) {
