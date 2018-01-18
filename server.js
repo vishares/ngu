@@ -18,6 +18,6 @@ app.use(function(req, res, next) {
 
 app.use('/zr',transaction)
 app.listen(process.env.OPENSHIFT_NODEJS_PORT  || 8080,process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',()=>{
-    console.log('listening');
+    console.log("Listening on " + process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1' + ", server_port " + rocess.env.OPENSHIFT_NODEJS_PORT  || 8080)
 })
 
