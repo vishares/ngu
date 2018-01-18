@@ -94,7 +94,7 @@ router.post("/addInstrument",(req,res)=>{
 });   
 
 
-executeQuery=(sql,res)=>{
+var executeQuery=(sql,res)=>{
 
     var con = mysql.createConnection({
         host: "localhost",
@@ -106,8 +106,6 @@ executeQuery=(sql,res)=>{
     
     con.connect(function (err) {
         if (err) throw err;
-        
-
         
         con.query(sql, function (err, result) {
             if (err) throw err;
