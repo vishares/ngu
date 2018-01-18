@@ -1,4 +1,4 @@
-
+"use strict";
 var mysql = require("mysql");
 var RSI = require('technicalindicators').RSI;
 var symbolConf = require("./symbolConf");
