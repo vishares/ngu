@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
   var bodyParser = require('body-parser')
   app.use( bodyParser.json() );  
  
-  //app.use(express.static(__dirname + '/dist/')); 
+  app.use(express.static(__dirname + '/dist/')); 
 
 app.use('/zr',transaction)
 app.listen((process.env.OPENSHIFT_NODEJS_PORT  || 8080),(process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0'),()=>{
