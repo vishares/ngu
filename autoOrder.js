@@ -7,7 +7,7 @@ var kite = require('./kite')
 var interval,rsiLower=0,rsiHigher=0,marginRSILower=0,marginRSIHigher=0, highTimer,lowTimer;
 function rsiAlgo(con) {
     symbolConf.getTradingList(con, (list) => {
-        autoRsi = () => {
+       var autoRsi = () => {
 
             if (symbolConf.isInstrumentUpdated()) {
                 symbolConf.updateInstrument(false);
@@ -99,7 +99,7 @@ var validateRSI = function (closeRSI, option,list) {
         //         marginRSIHigher-=10;
         //     },300000)
         // }
-        kite.placeOrder(Object.assign(option, { transaction_type: "SELL", price: closeRSI[closeRSI.length - 1],quantity:Math.round(Math.pow(option.quantity,latestRSI/option.upperRSI)),squareoff_value: (option.squareoff_value+((Math.floor(((latestRSI/5-14)*0.05)*20)/20)))}), (data) => {
+        kite.placeOrder(Object.assign(option, { transaction_type: "SELL", price: closeRSI[closeRSI.length - 1],quantity:Math.round(Math.pow(option.quantity,latestRSI/option.upperRSI)),squareoff_value: (option.squareoff_value+((Math.floor(((latestRSI/5-15)*0.05)*20)/20)))}), (data) => {
             console.log(data)
         })
     }
@@ -113,7 +113,7 @@ var validateRSI = function (closeRSI, option,list) {
         //         marginRSILower-=10;
         //     },300000)
         // }
-        kite.placeOrder(Object.assign(option, { transaction_type: "BUY", price: closeRSI[closeRSI.length - 1],quantity:Math.round((option.quantity*(option.lowerRSI/latestRSI))),squareoff_value: (option.squareoff_value+((Math.floor(((6-latestRSI/5)*0.05)*20)/20))) }), (data) => {
+        kite.placeOrder(Object.assign(option, { transaction_type: "BUY", price: closeRSI[closeRSI.length - 1],quantity:Math.round((option.quantity*(option.lowerRSI/latestRSI))),squareoff_value: (option.squareoff_value+((Math.floor(((5-latestRSI/5)*0.05)*20)/20))) }), (data) => {
             console.log(data)
         })
     }

@@ -2,12 +2,14 @@ var KiteTicker = require("kiteconnect").KiteTicker;
 var ticker = new KiteTicker("20cn5uuajhjwuew9", "YP5758", "test");
 var mysql=require("mysql");
 var symbolConf=require("./symbolConf");
+var ip = require("ip");
+
 var con = mysql.createConnection({
-    host: "localhost",
-    user: MYSQL_USER || "root",
-    password: MYSQL_PASSWORD || "root",
-    database: MYSQL_DATABASE||"ng"
-});
+    host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
+    user: "root",
+    password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
+    database:"ng"
+  });
   
   con.connect(function(err) {
     if (err) throw err;

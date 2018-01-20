@@ -1,7 +1,7 @@
 "use strict";
 var fs=require('fs');
 var KiteConnect = require("kiteconnect").KiteConnect;
-var kc = new KiteConnect("20cn5uuajhjwuew9");
+var kc = new KiteConnect({api_key: "20cn5uuajhjwuew9"});
 var kite={}
 var accessToken=""
 console.log("kite");
@@ -10,6 +10,7 @@ kite.startTranscation=function(requestToken){
         kc.requestAccessToken(requestToken, "xr4nbe9v92q1x5y0omxbdqdks09uxar9")
     	.then(function(response) {
             accessToken=response.data.access_token
+            console.log(accessToken);
             kc.setAccessToken(accessToken);
     		init();
     	})
@@ -50,7 +51,7 @@ kite.getPositions=(cb)=>{
 }
 kite.getLoginUrl=()=>{
 
-    return kc.loginUrl();
+    return kc.getLoginURL();
 }
 
 kite.getMargin=(cb)=>{

@@ -1,13 +1,15 @@
 var mysql = require("mysql");
 var RSI = require('technicalindicators').RSI;
 var placeOrder =require('./order')
+var ip = require("ip");
+
 var con = mysql.createConnection({
-    host: "localhost",
-    user: MYSQL_USER || "root",
-    password: MYSQL_PASSWORD || "root",
-    database: MYSQL_DATABASE||"ng"
-});
-var ohlc = [],closeRSI=[];
+    host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
+    user: "root",
+    password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
+    database:"ng"
+  });
+  var ohlc = [],closeRSI=[];
 
 con.connect(function (err) {
     if (err) throw err;

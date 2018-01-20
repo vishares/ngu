@@ -1,5 +1,6 @@
 
 "use strict";
+var ip = require("ip");
 
 var express = require('express');
 var login = require('./login');
@@ -9,7 +10,12 @@ var autoOrder = require("./autoOrder");
 var mysql = require("mysql");
 var symbolConf=require("./symbolConf");
 var router = express.Router();
-
+var con = mysql.createConnection({
+    host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
+    user: "root",
+    password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
+    database:"ng"
+  });
 var kite = require("./kite");
 
 
@@ -19,7 +25,7 @@ router.get("/getLoginUrl", (req, res) => {
 });
 
 router.get("/setRequestToken", (req, res) => {
-
+console.log("setRequestToken");
     kite.startTranscation(url.parse(req.url, true).query.request_token);
     res.send({ status: "0000" });
 })
@@ -95,22 +101,17 @@ router.post("/addInstrument",(req,res)=>{
 
 
 var executeQuery=(sql,res)=>{
-
     var con = mysql.createConnection({
-        host: "localhost",
+        host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
         user: "root",
-        password: "root",
-        database: "ng"
-    });
-    
-    
-    con.connect(function (err) {
+        password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
+        database:"ng"
+      });    con.connect(function (err) {
         if (err) throw err;
-        
         con.query(sql, function (err, result) {
             if (err) throw err;
             res.send(result);
-            con.end(); 
+           
         });
  });
 
