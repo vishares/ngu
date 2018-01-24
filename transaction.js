@@ -10,16 +10,20 @@ var autoOrder = require("./autoOrder");
 var mysql = require("mysql");
 var symbolConf=require("./symbolConf");
 var router = express.Router();
+var tickerInstance=null;
+var kite = require("./kite");
 var con = mysql.createConnection({
     host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
     user: "root",
     password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
     database:"ng"
   });
-var kite = require("./kite");
 
 
-
+  con.connect(function (err) {
+    if (err) throw err;
+    console.log("connecteddd")
+  });
 router.get("/getLoginUrl", (req, res) => {
     res.send({ url: kite.getLoginUrl() });
 });
@@ -55,17 +59,17 @@ router.post("/placeOrder", (req, res) => {
    // options = { exchange: "NSE", tradingsymbol: 'RCOM', validity: "DAY", transaction_type: "SELL", quantity: 2, price: "0", squareoff_value: ".2", stoploss_value: ".5" };
     kite.placeOrder(options, (data) => {
         res.send(data);
-    })
+    },con,-1)
 })
 
 router.get("/connect",(req,res)=>{
-    ticker.connect();
+    tickerInstance=ticker.connect();
     autoOrder.rsiAlgo(ticker.con);
     res.send({status:"0000"})
 })
 
 router.get("/clear",(req,res)=>{
- 
+ tickerInstance.disconnect();
    clearInterval(autoOrder.getInterval());
     res.send({status:autoOrder.interval})
 });
@@ -82,7 +86,7 @@ router.post("/updateInstrument",(req,res)=>{
     symbolConf.updateInstrument(true);
    
 
-    let sql = `update instruments set quantity=${req.body.quantity}, squareoff_value=${req.body.squareoff_value},stoploss_value=${req.body.stoploss_value},upperRSI=${req.body.upperRSI},lowerRSI=${req.body.lowerRSI},isEnabled=${!!req.body.isEnabled?'1':'0'} where token=${req.body.token}`;
+    let sql = `update instruments set quantity=${req.body.quantity}, squareoff=${req.body.squareoff},stoploss=${req.body.stoploss},upperRSI=${req.body.upperRSI},lowerRSI=${req.body.lowerRSI},isEnabled=${!!req.body.isEnabled?'1':'0'} where token=${req.body.token}`;
     executeQuery(sql,res);    
 
    
@@ -101,19 +105,13 @@ router.post("/addInstrument",(req,res)=>{
 
 
 var executeQuery=(sql,res)=>{
-    var con = mysql.createConnection({
-        host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
-        user: "root",
-        password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
-        database:"ng"
-      });    con.connect(function (err) {
-        if (err) throw err;
+ 
         con.query(sql, function (err, result) {
             if (err) throw err;
             res.send(result);
            
         });
- });
+ 
 
 }
 

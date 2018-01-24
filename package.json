@@ -26,6 +26,8 @@
     "gcloud": "^0.37.2",
     "ip": "^1.1.5",
     "kiteconnect": "https://github.com/zerodhatech/kiteconnectjs/tarball/kite3",
+    "moment": "^2.20.1",
+    "moment-timezone": "^0.5.14",
     "mysql": "^2.15.0",
     "node-ip": "^0.1.2",
     "technicalindicators": "^1.0.21"
