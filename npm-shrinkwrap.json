@@ -446,9 +446,9 @@
       "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.1.0.tgz"
     },
     "follow-redirects": {
-      "version": "1.3.0",
+      "version": "1.4.1",
       "from": "follow-redirects@>=1.2.5 <2.0.0",
-      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.3.0.tgz",
+      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.4.1.tgz",
       "dependencies": {
         "debug": {
           "version": "3.1.0",
@@ -1968,9 +1968,9 @@
       "resolved": "https://registry.npmjs.org/jws/-/jws-3.1.4.tgz"
     },
     "kiteconnect": {
-      "version": "3.0.0",
-      "from": "https://github.com/zerodhatech/kiteconnectjs/tarball/kite3",
-      "resolved": "https://github.com/zerodhatech/kiteconnectjs/tarball/kite3"
+      "version": "3.0.0-beta.2",
+      "from": "kiteconnect@beta",
+      "resolved": "https://registry.npmjs.org/kiteconnect/-/kiteconnect-3.0.0-beta.2.tgz"
     },
     "lcid": {
       "version": "1.0.0",

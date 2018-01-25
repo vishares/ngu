@@ -8,7 +8,7 @@ var KiteTicker = require("kiteconnect").KiteTicker;
 
 var fs=require("fs");
 var kc = new KiteConnect({api_key: "20cn5uuajhjwuew9"});
- kc.setAccessToken("UPOEvkkFUVD2AlQ66GLsNUlspg7uyzOL")
+ kc.setAccessToken("LlcS2MgaydJ9b9kpVNhsR9W7yXROx32C")
 console.log(kc.getLoginURL())
 var con = mysql.createConnection({
     host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
@@ -22,7 +22,7 @@ var con = mysql.createConnection({
     console.log("Connected!");
   });
 
-  token=4574465;
+  token=2426625;
 
 // kc.requestAccessToken("w0wgnpqlnpife40zqa35cclfhz0ummab", "xr4nbe9v92q1x5y0omxbdqdks09uxar9")
 // 	.then(function(response) {
@@ -83,7 +83,7 @@ var con = mysql.createConnection({
 var ticker = new KiteTicker({
     api_key: "20cn5uuajhjwuew9",
     user_id: "YP5758",
-    access_token: "UPOEvkkFUVD2AlQ66GLsNUlspg7uyzOL"
+    access_token: "Va8xXwiE0gbXf4gNiP4Pa8Sc0cP0mQYt"
 });
 ticker.connect();
 
@@ -113,10 +113,10 @@ ticker.on("reconnecting", function(reconnect_interval, reconnections) {
 });
 
 function setTick(ticks) {
-  // var sql = `update instruments set new_token=${ticks[0].instrument_token} where token=${token};`;
-  //         con.query(sql, function (err, result) {
-  //           if (err) throw err;
-  //         });
+  var sql = `update instruments set new_token=${ticks[0].instrument_token} where token=${token};`;
+          con.query(sql, function (err, result) {
+            if (err) throw err;
+          });
       // for(tick of ticks){
     //     console.log(tick.timestamp)
     //     var date=new Date(tick.timestamp).toISOString().slice(11, 19);

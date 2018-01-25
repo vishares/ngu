@@ -95,7 +95,7 @@ router.post("/updateInstrument",(req,res)=>{
 
 router.post("/addInstrument",(req,res)=>{
     symbolConf.updateInstrument(true);
-    let sql = `insert into instruments values (${req.body.token},'${req.body.tradingsymbol}',${req.body.quantity}, ${req.body.squareoff_value},${req.body.stoploss_value},${req.body.upperRSI},${req.body.lowerRSI},${!!req.body.isEnabled?'1':'0'} )`;
+    let sql = `insert into instruments values (${req.body.token},'${req.body.tradingsymbol}',${req.body.quantity}, ${req.body.squareoff},${req.body.stoploss},${req.body.upperRSI},${req.body.lowerRSI},${!!req.body.isEnabled?'1':'0'},-1 )`;
     console.log(sql);
     executeQuery(sql,res);    
 

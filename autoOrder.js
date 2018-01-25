@@ -37,7 +37,7 @@ function rsiAlgo(con) {
         function repeatEvery(func, interval) {
             // Check current time and calculate the delay until next interval
             var now = new Date(),
-                delay = interval - now % interval+5500;
+                delay = interval - now % interval+3500;
         
             function start() {
 
@@ -70,7 +70,7 @@ function rsiPlaceOrder(con, item,list) {
     var ohlc = [], closeRSI = [],RSIValue;
     let o, h, l, c;
     symbolConf.getInstruments(con, item, (option) => {
-        // let sql = `select ltp as close ,DATE_FORMAT(` + 'time' + `, '%H:%i') AS time from tick_data  where id in (select max(id) from tick_data where token in (select new_token from instruments where token='${item}' ) and time < DATE_SUB(now(), INTERVAL 1 MINUTE) group by UNIX_TIMESTAMP(time) DIV 60) ;`
+        // let sql = `select ltp as close ,DATE_FORMAT(` + 'time' + `, '%H:%i') AS time from tick_data  where id in (select max(id) from tick_data  where token='${item}'  and time < DATE_SUB(now(), INTERVAL 1 MINUTE) group by UNIX_TIMESTAMP(time) DIV 60) ;`
 
         // con.query(sql, function (err, result) {
         //     if (err) throw err;
@@ -79,9 +79,9 @@ function rsiPlaceOrder(con, item,list) {
 let currentDate=moment().format('HH:mm');
         let sql3 = `select t1.close,t2.time,t2.low,t2.high,t2.open from
         
-                    (select ltp as open, min(ltp) as low, max(ltp) as high, DATE_FORMAT(`+'`time`'+`,'%H:%i') as time from tick_data  where token in (select new_token from instruments where token='${item}') and time <'${currentDate}' group by UNIX_TIMESTAMP(time) DIV 60 )  t2 inner join
+                    (select ltp as open, min(ltp) as low, max(ltp) as high, DATE_FORMAT(`+'`time`'+`,'%H:%i') as time from tick_data  where token='${item}' and time <'${currentDate}' group by UNIX_TIMESTAMP(time) DIV 60 )  t2 inner join
         
-                    (select ltp as close,DATE_FORMAT(`+'`time`'+`,'%H:%i') as time  from tick_data where id in  (select max(id) as maxid from tick_data where token in (select new_token from instruments where token='${item}') and time <'${currentDate}' group by UNIX_TIMESTAMP(time) DIV 60)) t1    
+                    (select ltp as close,DATE_FORMAT(`+'`time`'+`,'%H:%i') as time  from tick_data where id in  (select max(id) as maxid from tick_data where token='${item}' and time <'${currentDate}' group by UNIX_TIMESTAMP(time) DIV 60)) t1    
         
                     on t1.time =t2.time;`
         con.query(sql3, function (err, result) {
