@@ -1120,9 +1120,9 @@ var AppComponent = (function () {
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (window.location.href.indexOf("request_token") != -1) {
-            if (window.location.href.indexOf("appspot.com") != -1) {
-                this.http.get(window.location.href.replace("appspot.com", "appspot.com/zr/setRequestToken")).subscribe(function (data) {
-                    window.location.href = "https://zngu-192516.appspot.com";
+            if (window.location.href.indexOf(".site") != -1) {
+                this.http.get(window.location.href.replace(".site", ".site/zr/setRequestToken")).subscribe(function (data) {
+                    window.location.href = "http://ngu.fastcomet.site";
                 });
             }
             else {

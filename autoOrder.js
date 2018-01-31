@@ -2,7 +2,7 @@
 var mysql = require("mysql");
 var RSI = require('technicalindicators').RSI;
 var symbolConf = require("./symbolConf");
-var moment=require('moment')
+var moment=require('moment-timezone')
 var kite = require('./kite')
 let sellSignal={};
 let buySignal={};
@@ -16,7 +16,6 @@ function rsiAlgo(con) {
                  });
       
        var autoRsi = () => {
-           console.log(new Date());
 
             if (symbolConf.isInstrumentUpdated()) {
                 symbolConf.updateInstrument(false);
@@ -37,7 +36,7 @@ function rsiAlgo(con) {
         function repeatEvery(func, interval) {
             // Check current time and calculate the delay until next interval
             var now = new Date(),
-                delay = interval - now % interval+3500;
+                delay = interval - now % interval+2500;
         
             function start() {
 
@@ -76,7 +75,7 @@ function rsiPlaceOrder(con, item,list) {
         //     if (err) throw err;
         //     c = result;
         // });
-let currentDate=moment().format('HH:mm');
+let currentDate=moment().tz('Asia/Calcutta').format('HH:mm');
         let sql3 = `select t1.close,t2.time,t2.low,t2.high,t2.open from
         
                     (select ltp as open, min(ltp) as low, max(ltp) as high, DATE_FORMAT(`+'`time`'+`,'%H:%i') as time from tick_data  where token='${item}' and time <'${currentDate}' group by UNIX_TIMESTAMP(time) DIV 60 )  t2 inner join
@@ -170,28 +169,34 @@ var validateRSI = function (closeRSI, option,list,con,ohlc) {
             //     console.log(data)
             // },con,latestRSI)
         }
-        if(sellSignal[option.token].enabled  && latestRSI < 70 && latestRSI >60 ){
-           
-                kite.placeOrder(Object.assign(option, { transaction_type: "SELL", price: closeRSI[closeRSI.length - 1]}), (data) => {
+        if(sellSignal[option.token].enabled  && latestRSI < 70  ){
+           if(latestRSI >60){
+            kite.placeOrder(Object.assign(option, { transaction_type: "SELL", price: closeRSI[closeRSI.length - 1]}), (data) => {
             },con,latestRSI);
-            sellSignal[option.token].enabled=false;
-            sellSignal[option.token].times=0;
+          
+           }
+           sellSignal[option.token].enabled=false;
+           sellSignal[option.token].times=0;
+               
     //console.log('sell');
             //con.query(`insert into backtest (token,transaction_type,price,quantity,time,squareoff,stoploss) values (${option.token},'SELL',${closeRSI[closeRSI.length - 1]},${option.quantity},'${time}',${option.squareoff}, ${option.stoploss})`);
     
         }
         else if(buySignal[option.token].enabled && latestRSI > 30 && latestRSI < 40){
            
-
-            kite.placeOrder(Object.assign(option, { transaction_type: "BUY", price: closeRSI[closeRSI.length - 1]}), (data) => {
-            },con,latestRSI);
+if(latestRSI <40){
+    kite.placeOrder(Object.assign(option, { transaction_type: "BUY", price: closeRSI[closeRSI.length - 1]}), (data) => {
+    },con,latestRSI);
+}
+           
             buySignal[option.token].enabled=false;
             buySignal[option.token].times=0;
            // con.query(`insert into backtest (token,transaction_type,price,quantity,time,squareoff,stoploss) values (${option.token},'BUY',${closeRSI[closeRSI.length - 1]},${option.quantity},'${time}',${option.squareoff}, ${option.stoploss})`);
           //  console.log('buy');
         }
         console.log(ohlc[closeRSI.length - 1].time+":"+option.tradingsymbol + ":" + closeRSI[closeRSI.length - 1] + ":" + latestRSI+":"+  sellSignal[option.token].times+ buySignal[option.token].times);
-}
+
+    }
 
 var getInterval = function () {
     return interval;

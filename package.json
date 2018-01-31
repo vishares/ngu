@@ -25,9 +25,10 @@
     "express": "^4.16.2",
     "gcloud": "^0.37.2",
     "ip": "^1.1.5",
+    "jsonfile": "^4.0.0",
     "kiteconnect": "^3.0.0-beta.2",
     "moment": "^2.20.1",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.14.tgz",
     "mysql": "^2.15.0",
     "node-ip": "^0.1.2",
     "technicalindicators": "^1.0.21"

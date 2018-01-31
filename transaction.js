@@ -1,4 +1,5 @@
 
+
 "use strict";
 var ip = require("ip");
 
@@ -12,18 +13,47 @@ var symbolConf=require("./symbolConf");
 var router = express.Router();
 var tickerInstance=null;
 var kite = require("./kite");
-var con = mysql.createConnection({
-    host: ip.address().indexOf("192.168")!=-1?"localhost":"10.128.0.2",
-    user: "root",
-    password: ip.address().indexOf("192.168")!=-1?"root":"jSiw8bPtEFBB",
-    database:"ng"
-  });
 
 
-  con.connect(function (err) {
-    if (err) throw err;
-    console.log("connecteddd")
-  });
+
+  
+
+  var db_config = {
+    host: ip.address().indexOf("192.168")!=-1?"localhost":"localhost",
+    user: ip.address().indexOf("192.168")!=-1?"root":"ngufastc_root",
+    password: ip.address().indexOf("192.168")!=-1?"root":"Qwerty1!",
+    database:ip.address().indexOf("192.168")!=-1?"ng":"ngufastc_db"
+  };
+  
+  var con;
+  
+  function handleDisconnect() {
+    con = mysql.createConnection(db_config); // Recreate the connection, since
+                                                    // the old one cannot be reused.
+  
+                                                    con.connect(function(err) {              // The server is either down
+      if(err) {                                     // or restarting (takes a while sometimes).
+        console.log('error when connecting to db:', err);
+        setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+      }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+                                            con.on('error', function(err) {
+      console.log('db error', err);
+      if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+        handleDisconnect();                         // lost due to either server restart, or a
+      } else {                                      // connnection idle timeout (the wait_timeout
+        throw err;                                  // server variable configures this)
+      }
+    });
+  }
+  
+  handleDisconnect()
+
+
+  tickerInstance=ticker.connect();
+  autoOrder.rsiAlgo(ticker.con);
+
 router.get("/getLoginUrl", (req, res) => {
     res.send({ url: kite.getLoginUrl() });
 });
@@ -63,15 +93,15 @@ router.post("/placeOrder", (req, res) => {
 })
 
 router.get("/connect",(req,res)=>{
+    disconnect();
     tickerInstance=ticker.connect();
     autoOrder.rsiAlgo(ticker.con);
     res.send({status:"0000"})
 })
 
 router.get("/clear",(req,res)=>{
- tickerInstance.disconnect();
-   clearInterval(autoOrder.getInterval());
-    res.send({status:autoOrder.interval})
+ disconnect();
+ res.send({status:autoOrder.interval})
 });
 
 router.get("/getInstruments",(req,res)=>{
@@ -113,6 +143,11 @@ var executeQuery=(sql,res)=>{
         });
  
 
+}
+function disconnect(){
+    tickerInstance.disconnect();
+    clearInterval(autoOrder.getInterval());
+     
 }
 
 
